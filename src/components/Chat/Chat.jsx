@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./Chat.module.css";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000");
+// const socket = io("http://localhost:3000");
+const socket = io("https://chat-backend-lx93.onrender.com")
 
 function Chat() {
   const [isConnected, setIsConnected] = useState(false);
