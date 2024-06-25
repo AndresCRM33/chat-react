@@ -1,13 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Chat from './components/Chat/Chat';
 import { NavBar } from './components/NavBar/NavBar';
+import { Routes, Route, Link } from 'react-router-dom';
+import { Login } from './components/LogIn/Login';
 
 function App() {
+
+  const [name, setName] = useState("")
+
   return (
     <div className='app'>
         <NavBar />
-        <Chat />
+        <Routes>
+          <Route path="/login" element={<Login name={name} setName={setName}/>} />
+          <Route path="/chat" element={<Chat userName={name}/>} />
+        </Routes>
     </div>
   );
 }

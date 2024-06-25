@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./Chat.module.css";
 import { io } from "socket.io-client";
+import { Link } from "react-router-dom";
 
 // const socket = io("http://localhost:3000");
 const socket = io("https://chat-backend-lx93.onrender.com")
 
-function Chat() {
+function Chat({userName}) {
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
   const [escribiendo, setEscribiendo] = useState(false);
   const [timeout, setTimeoutId] = useState(null);
+
 
   const messagesEndRef = useRef(null);
 
@@ -46,7 +48,8 @@ function Chat() {
 
   const enviarMensaje = () => {
     socket.emit("chat_message", {
-      usuario: socket.id,
+      // usuario: socket.id,
+      usuario: userName,
       mensaje: nuevoMensaje,
     });
     setNuevoMensaje("");
@@ -66,37 +69,46 @@ function Chat() {
     setTimeoutId(newTimeout);
   };
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.messages}>
-        <ul>
-          {mensajes.map((msj, index) => (
-            <li key={index}>
-              <b className={styles.name}>{msj.usuario} :</b> {msj.mensaje}
-            </li>
-          ))}
-          {escribiendo ? (
-            <li id={styles.typing}>Un usuario está escribiendo...</li>
-          ) : null}
-        </ul>
-        <div ref={messagesEndRef} />
+  if (userName != ""){
+    return (
+      <div className={styles.container}>
+        <h2>Bienvenido {userName}</h2>
+        <div className={styles.messages}>
+          <ul>
+            {mensajes.map((msj, index) => (
+              <li key={index}>
+                <b className={styles.name}>{msj.usuario} :</b> {msj.mensaje}
+              </li>
+            ))}
+            {escribiendo ? (
+              <li id={styles.typing}>Un usuario está escribiendo...</li>
+            ) : null}
+          </ul>
+          <div ref={messagesEndRef} />
+        </div>
+        <form onSubmit={(e) => e.preventDefault()} className={styles.formChat}>
+          <input
+            type="text"
+            value={nuevoMensaje}
+            onChange={(e) => {
+              setNuevoMensaje(e.target.value);
+              handleTyping();
+            }}
+            className={styles.inputChat}
+          />
+          <button type="submit" onClick={enviarMensaje} className={styles.buttonChat}>
+            Enviar
+          </button>
+        </form>
       </div>
-      <form onSubmit={(e) => e.preventDefault()} className={styles.formChat}>
-        <input
-          type="text"
-          value={nuevoMensaje}
-          onChange={(e) => {
-            setNuevoMensaje(e.target.value);
-            handleTyping();
-          }}
-          className={styles.inputChat}
-        />
-        <button type="submit" onClick={enviarMensaje} className={styles.buttonChat}>
-          Enviar
-        </button>
-      </form>
-    </div>
-  );
+    );
+  }else{
+    return(<div>
+      <h2>Por favor, debe ingresar su nombre</h2>
+      <Link to="/login">Volver</Link>
+      </div>)
+  }
+
 }
 
 export default Chat;
