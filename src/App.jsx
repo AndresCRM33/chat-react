@@ -7,14 +7,12 @@ import { Login } from './components/LogIn/Login';
 
 function App() {
 
-  const [name, setName] = useState("")
-
   return (
     <div className='app'>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Login name={name} setName={setName}/>} />
-          <Route path="/chat" element={<Chat userName={name}/>} />
+          <Route path="/" element={<Login/>} />
+          <Route path="/chat" element={<Chat/>} />
         </Routes>
     </div>
   );

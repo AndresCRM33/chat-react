@@ -2,16 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./Chat.module.css";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // const socket = io("http://localhost:3000");
 const socket = io("https://chat-backend-lx93.onrender.com")
 
-function Chat({userName}) {
+function Chat() {
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
   const [escribiendo, setEscribiendo] = useState(false);
   const [timeout, setTimeoutId] = useState(null);
+
+  const user = useSelector(state => state.userName)
 
 
   const messagesEndRef = useRef(null);
@@ -49,7 +52,7 @@ function Chat({userName}) {
   const enviarMensaje = () => {
     socket.emit("chat_message", {
       // usuario: socket.id,
-      usuario: userName,
+      usuario: user,
       mensaje: nuevoMensaje,
     });
     setNuevoMensaje("");
@@ -69,10 +72,11 @@ function Chat({userName}) {
     setTimeoutId(newTimeout);
   };
 
-  if (userName != ""){
+  //user lo tomamos del estado global con useSelector
+  if (user != ""){
     return (
       <div className={styles.container}>
-        <h2>Bienvenido {userName}</h2>
+        <h2>Bienvenido {user}</h2>
         <div className={styles.messages}>
           <ul>
             {mensajes.map((msj, index) => (
@@ -105,7 +109,7 @@ function Chat({userName}) {
   }else{
     return(<div>
       <h2>Por favor, debe ingresar su nombre</h2>
-      <Link to="/login">Volver</Link>
+      <Link to="/">Volver</Link>
       </div>)
   }
 

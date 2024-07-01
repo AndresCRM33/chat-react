@@ -27,7 +27,9 @@
     list-style: none;
 }
 
-.menuNav li{
+.menuNav .menuNavItem{
+    color: #f0f0f0;
+    text-decoration: none;
     padding: 25px;
     cursor: pointer;
     font-size: 20px;
