@@ -52,7 +52,7 @@ function Chat() {
   const enviarMensaje = () => {
     socket.emit("chat_message", {
       // usuario: socket.id,
-      usuario: user,
+      usuario: user + ": ",
       mensaje: nuevoMensaje,
     });
     setNuevoMensaje("");
@@ -81,7 +81,7 @@ function Chat() {
           <ul>
             {mensajes.map((msj, index) => (
               <li key={index}>
-                <b className={styles.name}>{msj.usuario} :</b> {msj.mensaje}
+                <b className={styles.name}>{msj.usuario}</b> {msj.mensaje}
               </li>
             ))}
             {escribiendo ? (

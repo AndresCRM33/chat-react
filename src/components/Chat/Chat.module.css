@@ -11,6 +11,7 @@
 .messages{
     flex: 1;
     overflow-y: auto; /* Habilita el desplazamiento vertical */
+    overflow-x: hidden;
     width: 90%;
     padding: 10px;
     margin-bottom: 10px;
@@ -37,6 +38,8 @@
     display: flex;
     align-items: center;
     animation: newMessage 0.5s;
+    overflow-wrap: break-word;
+    display: inline-block;
 }
 
 .name{
@@ -87,5 +90,11 @@
 
     100%{
         opacity: 1;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .messages{
+        width: 100%;
     }
 }
