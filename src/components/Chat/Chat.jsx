@@ -76,7 +76,7 @@ function Chat() {
   if (user != ""){
     return (
       <div className={styles.container}>
-        <h2>Welcome {user}</h2>
+        <h2>Welcome {user}!</h2>
         <div className={styles.messages}>
           <ul>
             {mensajes.map((msj, index) => (
