@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // const socket = io("http://localhost:3000");
-const socket = io("https://chat-backend-lx93.onrender.com")
+const socket = io("https://chat-backend-lx93.onrender.com");
 
 function Chat() {
   const [isConnected, setIsConnected] = useState(false);
@@ -14,8 +14,7 @@ function Chat() {
   const [escribiendo, setEscribiendo] = useState(false);
   const [timeout, setTimeoutId] = useState(null);
 
-  const user = useSelector(state => state.userName)
-
+  const user = useSelector(state => state.userName);
 
   const messagesEndRef = useRef(null);
 
@@ -51,7 +50,6 @@ function Chat() {
 
   const enviarMensaje = () => {
     socket.emit("chat_message", {
-      // usuario: socket.id,
       usuario: user + ": ",
       mensaje: nuevoMensaje,
     });
@@ -72,8 +70,7 @@ function Chat() {
     setTimeoutId(newTimeout);
   };
 
-  //user lo tomamos del estado global con useSelector
-  if (user != ""){
+  if (user !== "") {
     return (
       <div className={styles.container}>
         <h2>Welcome {user}!</h2>
@@ -84,9 +81,9 @@ function Chat() {
                 <b className={styles.name}>{msj.usuario}</b> {msj.mensaje}
               </li>
             ))}
-            {escribiendo ? (
-              <li id={styles.typing}>Un usuario está escribiendo...</li>
-            ) : null}
+            {escribiendo && (
+              <li className={styles.typing}>Un usuario está escribiendo...</li>
+            )}
           </ul>
           <div ref={messagesEndRef} />
         </div>
@@ -99,6 +96,7 @@ function Chat() {
               handleTyping();
             }}
             className={styles.inputChat}
+            aria-label="Nuevo mensaje"
           />
           <button type="submit" onClick={enviarMensaje} className={styles.buttonChat}>
             Enviar
@@ -106,13 +104,14 @@ function Chat() {
         </form>
       </div>
     );
-  }else{
-    return(<div>
-      <h2>Por favor, debe ingresar su nombre</h2>
-      <Link to="/">Volver</Link>
-      </div>)
+  } else {
+    return (
+      <div>
+        <h2>Por favor, debe ingresar su nombre</h2>
+        <Link to="/">Volver</Link>
+      </div>
+    );
   }
-
 }
 
 export default Chat;
