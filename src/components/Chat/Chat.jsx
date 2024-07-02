@@ -70,6 +70,25 @@ function Chat() {
     setTimeoutId(newTimeout);
   };
 
+  const setChatContainerHeight = () => {
+    const navBarHeight = 60; // Altura de tu barra de navegación
+    const container = document.querySelector(`.${styles.container}`);
+    const height = window.innerHeight - navBarHeight;
+    container.style.height = `${height}px`;
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', setChatContainerHeight);
+    window.addEventListener('load', setChatContainerHeight);
+
+    setChatContainerHeight(); // Set initial height
+
+    return () => {
+      window.removeEventListener('resize', setChatContainerHeight);
+      window.removeEventListener('load', setChatContainerHeight);
+    };
+  }, []);
+
   if (user !== "") {
     return (
       <div className={styles.container}>
