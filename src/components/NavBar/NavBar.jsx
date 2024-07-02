@@ -14,7 +14,7 @@ export function NavBar(){
     return(<div className="containerNav">
         <h1 className="logoNav">SwiftChat</h1>
         <ul className="menuNav">
-            <li className="menuNavItem">Chats</li>
+            {/* <li className="menuNavItem">Chats</li> */}
             <Link className="menuNavItem" to={"/"} onClick={handleCLick}>LogOut</Link>
         </ul>
     </div>)
